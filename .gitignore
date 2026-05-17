@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+
+videos/*
+!videos/.gitkeep
+
+reports/*
+!reports/.gitkeep
+!reports/*.md
+
+.DS_Store
