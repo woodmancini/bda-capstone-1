@@ -1,5 +1,4 @@
-from library import download_video
-from library import read_video_urls
+from library import *
 import time
 from multiprocessing import Pool
 
@@ -10,10 +9,18 @@ if __name__ == "__main__":
     url_list = read_video_urls("data/video_urls.csv")
 
     serial_time = 0
+
+    metadata_rows = []
+
+    serial_results = []
+
     for i, url in enumerate(url_list):
         start = time.perf_counter()
-        download_video(url)
+        result = download_video(url)
+        serial_results.append(result)
         end = time.perf_counter()
+        metadata = get_video_metadata(url)
+        metadata_rows.append(metadata)
         elapsed = end - start
         serial_time += elapsed
         print(f"\nTime to download video {i + 1} was {round(elapsed, 2)} seconds.\n")
@@ -28,13 +35,14 @@ if __name__ == "__main__":
 Total time: {round(serial_time, 2)} seconds
 
 Time complexity: n (amount of urls to process) x m (average size of video files)
+
 Space complexity: n + m
 """
          )
 
     with Pool() as pool:
         start = time.perf_counter()
-        results = pool.map(download_video, url_list)
+        parallel_results = pool.map(download_video, url_list)
         end = time.perf_counter()
         elapsed = end - start
         parallel_time = round(elapsed, 2)
@@ -50,5 +58,24 @@ Space complexity: n + m
 
 Total time: {parallel_time} seconds
 
-Speed improvement: {percent_improvement}%"""
+Speed improvement: {percent_improvement}%
+
+## Download status:
+
+"""
         )
+
+        for result in parallel_results:
+            if result["status"] == "failed":
+                file.write(f"\nFailed: {result['url']}")
+                file.write(f"\nError: {result['error']}")
+
+    fieldnames = []
+    if metadata_rows:
+        for column, value in metadata.items():
+            fieldnames.append(column)
+
+    with open("data/video_metadata.csv", "w", encoding="utf-8", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames)
+        writer.writeheader()
+        writer.writerows(metadata_rows)
