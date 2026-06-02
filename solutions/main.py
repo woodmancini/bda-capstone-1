@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     download_video("https://www.youtube.com/watch?v=jNQXAC9IVRw")
 
-    url_list = read_video_urls("data/video_urls.csv")
+    url_list = read_video_urls("data/video_urls_updated.csv")
 
     serial_time = 0
 
@@ -19,8 +19,11 @@ if __name__ == "__main__":
         result = download_video(url)
         serial_results.append(result)
         end = time.perf_counter()
-        metadata = get_video_metadata(url)
-        metadata_rows.append(metadata)
+        try: 
+            metadata = get_video_metadata(url)
+            metadata_rows.append(metadata)
+        except Exception as error:
+            print(f"Problem obtaining video metadata: {error}.")
         elapsed = end - start
         serial_time += elapsed
         print(f"\nTime to download video {i + 1} was {round(elapsed, 2)} seconds.\n")
@@ -39,8 +42,7 @@ Time complexity: n (amount of urls to process) x m (average size of video files)
 Space complexity: n + m
 """
          )
-
-    with Pool() as pool:
+    with Pool(processes=5) as pool:
         start = time.perf_counter()
         parallel_results = pool.map(download_video, url_list)
         end = time.perf_counter()
@@ -52,23 +54,24 @@ Space complexity: n + m
     time_saved = serial_time - parallel_time
     percent_improvement = round(time_saved / serial_time * 100)
 
-    with open("reports\sequential_report.md", "a", encoding="utf-8") as file:
-        file.write(f"""   
-## Parallel execution
+    with result_file_guard:
+        with open("reports\sequential_report.md", "a", encoding="utf-8") as file:
+            file.write(f"""   
+    ## Parallel execution
 
-Total time: {parallel_time} seconds
+    Total time: {parallel_time} seconds
 
-Speed improvement: {percent_improvement}%
+    Speed improvement: {percent_improvement}%
 
-## Download status:
+    ## Download status:
 
-"""
-        )
+    """
+            )
 
-        for result in parallel_results:
-            if result["status"] == "failed":
-                file.write(f"\nFailed: {result['url']}")
-                file.write(f"\nError: {result['error']}")
+            for result in parallel_results:
+                if result["status"] == "failed":
+                    file.write(f"\nFailed: {result['url']}")
+                    file.write(f"\nError: {result['error']}")
 
     fieldnames = []
     if metadata_rows:

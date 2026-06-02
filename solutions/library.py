@@ -1,6 +1,10 @@
 from pathlib import Path
 import yt_dlp
 import csv
+import threading
+
+download_limit = threading.Semaphore(5)
+result_file_guard = threading.Semaphore(1)
 
 def download_video(url):
 
@@ -10,23 +14,39 @@ def download_video(url):
         "outtmpl": "videos/%(title)s.%(ext)s",
         "socket_timeout": 30,
     }
+
+    with download_limit:
+
+        try:
+
+            with yt_dlp.YoutubeDL(ydl_options) as ydl:
+                ydl.download([url])
+
+            
+            result = {
+                "url": url,
+                "status": "success",
+                "error": "",
+            }
+
+        except Exception as error:
+
+            result = {
+                "url": url,
+                "status": "failed",
+                "error": str(error),
+            }
     
-    try:
-        with yt_dlp.YoutubeDL(ydl_options) as ydl:
-            ydl.download([url])
+    with result_file_guard:
 
-        return {
-            "url": url,
-            "status": "success",
-            "error": "",
-        }
+        with open("reports/download_results.txt", "a", encoding="utf-8") as file:
 
-    except Exception as error:
-        return {
-            "url": url,
-            "status": "failed",
-            "error": str(error),
-        }
+            if result["status"] == "failed":
+                file.write(f"Download of {result["url"]} failed with error {result["error"]}.")
+            else:
+                file.write(f"{result["url"]} was downloaded successfully.")
+    
+    return result
 
 def read_video_urls(csv_path):
 
