@@ -42,9 +42,9 @@ def download_video(url):
         with open("reports/download_results.txt", "a", encoding="utf-8") as file:
 
             if result["status"] == "failed":
-                file.write(f"Download of {result["url"]} failed with error {result["error"]}.")
+                file.write(f"Download of {result["url"]} failed with error {result["error"]}.\n")
             else:
-                file.write(f"{result["url"]} was downloaded successfully.")
+                file.write(f"{result["url"]} was downloaded successfully.\n")
     
     return result
 

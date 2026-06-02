@@ -14,6 +14,10 @@ if __name__ == "__main__":
 
     serial_results = []
 
+    # Clear download_results.txt
+    with open("reports/download_results.txt", "w", encoding="utf-8") as file:
+        pass
+
     for i, url in enumerate(url_list):
         start = time.perf_counter()
         result = download_video(url)
