@@ -2,7 +2,7 @@
 
 ## Serial execution
 
-Total time: 12.69 seconds
+Total time: 11.03 seconds
 
 Time complexity: n (amount of urls to process) x m (average size of video files)
 
@@ -10,9 +10,9 @@ Space complexity: n + m
    
     ## Parallel execution
 
-    Total time: 3.43 seconds
+    Total time: 2.9 seconds
 
-    Speed improvement: 73%
+    Speed improvement: 74%
 
     ## Download status:
 
