@@ -1,6 +1,8 @@
 from library import *
 import time
 from multiprocessing import Pool
+import threading
+from concurrent.futures import ThreadPoolExecutor
 
 if __name__ == "__main__":
 
@@ -34,7 +36,7 @@ if __name__ == "__main__":
     
     print(f"Serial execution: {round(serial_time, 2)}")
 
-    with open("reports\sequential_report.md", "w", encoding="utf-8") as file:
+    with open("reports/sequential_report.md", "w", encoding="utf-8") as file:
         file.write(f"""# Report
 
 ## Serial execution
@@ -46,9 +48,12 @@ Time complexity: n (amount of urls to process) x m (average size of video files)
 Space complexity: n + m
 """
          )
-    with Pool(processes=5) as pool:
+        
+#     # Previous method:
+#     # with Pool(processes=5) as pool:
+    with ThreadPoolExecutor() as executor:
         start = time.perf_counter()
-        parallel_results = pool.map(download_video, url_list)
+        parallel_results = executor.map(download_video, url_list)
         end = time.perf_counter()
         elapsed = end - start
         parallel_time = round(elapsed, 2)
@@ -59,17 +64,17 @@ Space complexity: n + m
     percent_improvement = round(time_saved / serial_time * 100)
 
     with result_file_guard:
-        with open("reports\sequential_report.md", "a", encoding="utf-8") as file:
+        with open("reports/sequential_report.md", "a", encoding="utf-8") as file:
             file.write(f"""   
-    ## Parallel execution
+## Parallel execution
 
-    Total time: {parallel_time} seconds
+Total time: {parallel_time} seconds
 
-    Speed improvement: {percent_improvement}%
+Speed improvement: {percent_improvement}%
 
-    ## Download status:
+## Download status:
 
-    """
+"""
             )
 
             for result in parallel_results:

@@ -2,21 +2,21 @@
 
 ## Serial execution
 
-Total time: 11.03 seconds
+Total time: 12.43 seconds
 
 Time complexity: n (amount of urls to process) x m (average size of video files)
 
 Space complexity: n + m
    
-    ## Parallel execution
+## Parallel execution
 
-    Total time: 2.9 seconds
+Total time: 0.47 seconds
 
-    Speed improvement: 74%
+Speed improvement: 96%
 
-    ## Download status:
+## Download status:
 
-    
+
 Failed: https://www.youtube.com/watch?v=xuP4g7IDgDM
 Error: [0;31mERROR:[0m [youtube] xuP4g7IDgDM: This video is not available
 Failed: not_a_url

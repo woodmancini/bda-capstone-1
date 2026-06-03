@@ -1,0 +1,20 @@
+https://www.youtube.com/watch?v=jNQXAC9IVRw was downloaded successfully.
+https://www.youtube.com/watch?v=BB49x_uMlGA was downloaded successfully.
+https://www.youtube.com/watch?v=Hm5ieMoxc4c was downloaded successfully.
+https://www.youtube.com/watch?v=LeAltgu_pbM was downloaded successfully.
+https://www.youtube.com/watch?v=tCDvOQI3pco was downloaded successfully.
+https://www.youtube.com/watch?v=FAyKDaXEAgc was downloaded successfully.
+Download of https://www.youtube.com/watch?v=xuP4g7IDgDM failed with error [0;31mERROR:[0m [youtube] xuP4g7IDgDM: This video is not available.
+https://www.youtube.com/watch?v=DAjMZ6fCPOo was downloaded successfully.
+https://www.youtube.com/watch?v=r7gVLa1tP94 was downloaded successfully.
+Download of not_a_url failed with error [0;31mERROR:[0m [generic] 'not_a_url' is not a valid URL.
+https://www.youtube.com/watch?v=LeAltgu_pbM was downloaded successfully.
+https://www.youtube.com/watch?v=Hm5ieMoxc4c was downloaded successfully.
+https://www.youtube.com/watch?v=jNQXAC9IVRw was downloaded successfully.
+https://www.youtube.com/watch?v=tCDvOQI3pco was downloaded successfully.
+https://www.youtube.com/watch?v=BB49x_uMlGA was downloaded successfully.
+Download of not_a_url failed with error [0;31mERROR:[0m [generic] 'not_a_url' is not a valid URL.
+Download of https://www.youtube.com/watch?v=xuP4g7IDgDM failed with error [0;31mERROR:[0m [youtube] xuP4g7IDgDM: This video is not available.
+https://www.youtube.com/watch?v=FAyKDaXEAgc was downloaded successfully.
+https://www.youtube.com/watch?v=r7gVLa1tP94 was downloaded successfully.
+https://www.youtube.com/watch?v=DAjMZ6fCPOo was downloaded successfully.

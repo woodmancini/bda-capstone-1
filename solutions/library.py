@@ -5,17 +5,27 @@ import threading
 
 download_limit = threading.Semaphore(5)
 result_file_guard = threading.Semaphore(1)
+counter_lock = threading.Semaphore(1)
+download_limit_count = 0
 
 def download_video(url):
+
+    global download_limit_count
 
     Path("videos").mkdir(exist_ok=True)
 
     ydl_options = {
+        "quiet": True,
+        "no_warnings": True,
         "outtmpl": "videos/%(title)s.%(ext)s",
         "socket_timeout": 30,
     }
 
     with download_limit:
+
+        with counter_lock:
+            download_limit_count += 1
+            print(f"Currently downloading: {download_limit_count}")
 
         try:
 
@@ -36,6 +46,10 @@ def download_video(url):
                 "status": "failed",
                 "error": str(error),
             }
+        
+        with counter_lock:
+            download_limit_count -= 1
+            print(f"Currently downloading: {download_limit_count}")
     
     with result_file_guard:
 
